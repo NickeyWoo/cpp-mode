@@ -8,7 +8,7 @@
 " .h -> .cpp or .cpp -> .h
 function! cppmode#switch#switch_file()
     let suffix = cppmode#util#get_file_suffix()
-    if suffix == "h" || suffix == "hpp"
+    if suffix == "h" || suffix == "hpp" || suffix == "hh"
         call <sid>switch_to_implement_file(suffix)    
     elseif suffix == "cc" || suffix == "cpp" || suffix == "c"
         call <sid>switch_to_head_file(suffix)
@@ -49,6 +49,7 @@ function! s:get_head_file_path(suffix)
     let name = cppmode#util#get_base_name_with_path()
 
     call add(paths, name . ".h")
+    call add(paths, name . ".hh")
     call add(paths, name . ".hpp")
 
     return paths

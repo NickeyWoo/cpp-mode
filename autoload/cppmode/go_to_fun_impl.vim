@@ -47,6 +47,10 @@ function! s:get_impl_file_path()
 
     if suffix == "cpp"
         return file_path
+    elseif suffix == "cc"
+        return file_path
+    elseif suffix == "hh"
+        return cppmode#util#substr(file_path, 0, len(file_path) - 1) . "cc"
     elseif suffix == "h"
         return cppmode#util#substr(file_path, 0, len(file_path) - 1) . "cpp"
     else
@@ -60,8 +64,12 @@ function! s:get_head_file_path()
     let file_path = cppmode#util#get_file_path()
     let suffix = cppmode#util#get_file_suffix()
 
-    if suffix == "h"
+    if suffix == "hh"
         return file_path
+    elseif suffix == "h"
+        return file_path
+    elseif suffix == "cc"
+        return cppmode#util#substr(file_path, 0, len(file_path) - 3) . "hh"
     elseif suffix == "cpp"
         return cppmode#util#substr(file_path, 0, len(file_path) - 3) . "h"
     else
