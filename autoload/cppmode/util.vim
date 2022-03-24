@@ -185,7 +185,7 @@ endfunction
 
 " 打开标签
 function! cppmode#util#open_tab(file_path)
-    execute ":edit " . a:file_path
+    execute ":tabf " . a:file_path
 endfunction
 
 " 获取文本下有多少个目标字符
