@@ -12,24 +12,24 @@ function! cppmode#go_to_fun_impl#go_to_fun_impl()
     let fun_name = cppmode#util#get_cursor_word()
 
     if suffix == "h" || suffix == "hpp" || suffix == "hh"
-        let impl_path = <sid>get_impl_file_path(file_path)
+        let impl_path = <sid>get_impl_file_path(file_path, suffix)
 
         if cppmode#util#is_exist(impl_path)
             if <sid>go_to_impl_with_class(impl_path) != 1
                 echo "Not found `".fun_name."` IN `".impl_path."`".
-            endfi
+            endif
         else
             echo "Not found Impl File `".impl_path."`".
         endif
 
     elseif suffix == "cc" || suffix == "cpp" || suffix == "c"
-        let head_path = <sid>get_head_file_path(file_path)
+        let head_path = <sid>get_head_file_path(file_path, suffix)
 
         if cppmode#util#is_exist(head_path)
             if <sid>go_to_impl_with_class(head_path) != 1
                 if <sid>go_to_impl_not_with_class(head_path) != 1
                     echo "Not found `".fun_name."` IN `".head_path."`".
-                endfi
+                endif
             endif
         else
             echo "Not found Head File `".head_path."`".
@@ -39,16 +39,15 @@ function! cppmode#go_to_fun_impl#go_to_fun_impl()
 endfunction
 
 " 获得实现文件路径
-function! s:get_impl_file_path(file_path)
-    let suffix = cppmode#util#get_file_suffix()
-    if suffix == "cpp"
-        return file_path
-    elseif suffix == "cc"
-        return file_path
-    elseif suffix == "hh"
-        return cppmode#util#substr(file_path, 0, len(file_path) - 2) . "cc"
-    elseif suffix == "h"
-        return cppmode#util#substr(file_path, 0, len(file_path) - 1) . "cpp"
+function! s:get_impl_file_path(file_path, suffix)
+    if a:suffix == "cpp"
+        return a:file_path
+    elseif a:suffix == "cc"
+        return a:file_path
+    elseif a:suffix == "hh"
+        return cppmode#util#substr(a:file_path, 0, len(a:file_path) - 2) . "cc"
+    elseif a:suffix == "h"
+        return cppmode#util#substr(a:file_path, 0, len(a:file_path) - 1) . "cpp"
     else
         return ""
     endif
@@ -56,16 +55,15 @@ function! s:get_impl_file_path(file_path)
 endfunction
 
 " 获得头文件路径
-function! s:get_head_file_path(file_path)
-    let suffix = cppmode#util#get_file_suffix()
-    if suffix == "hh"
-        return file_path
-    elseif suffix == "h"
-        return file_path
-    elseif suffix == "cc"
-        return cppmode#util#substr(file_path, 0, len(file_path) - 2) . "hh"
-    elseif suffix == "cpp"
-        return cppmode#util#substr(file_path, 0, len(file_path) - 3) . "h"
+function! s:get_head_file_path(file_path, suffix)
+    if a:suffix == "hh"
+        return a:file_path
+    elseif a:suffix == "h"
+        return a:file_path
+    elseif a:suffix == "cc"
+        return cppmode#util#substr(a:file_path, 0, len(a:file_path) - 2) . "hh"
+    elseif a:suffix == "cpp"
+        return cppmode#util#substr(a:file_path, 0, len(a:file_path) - 3) . "h"
     else
         return ""
     endif
