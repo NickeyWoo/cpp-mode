@@ -12,24 +12,24 @@ function! cppmode#go_to_fun_impl#go_to_fun_impl()
     let fun_name = cppmode#util#get_cursor_word()
 
     if suffix == "h" || suffix == "hpp" || suffix == "hh"
-        let impl_path = <sid>get_impl_file_path(file_path, suffix)
+        let impl_path = <sid>get_impl_file_path(file_path)
 
         if cppmode#util#is_exist(impl_path)
             if <sid>go_to_impl_with_class(impl_path) != 1
                 echo "Not found `".fun_name."` IN `".impl_path."`".
-            fi
+            endfi
         else
             echo "Not found Impl File `".impl_path."`".
         endif
 
     elseif suffix == "cc" || suffix == "cpp" || suffix == "c"
-        let head_path = <sid>get_head_file_path(file_path, suffix)
+        let head_path = <sid>get_head_file_path(file_path)
 
         if cppmode#util#is_exist(head_path)
             if <sid>go_to_impl_with_class(head_path) != 1
                 if <sid>go_to_impl_not_with_class(head_path) != 1
                     echo "Not found `".fun_name."` IN `".head_path."`".
-                fi
+                endfi
             endif
         else
             echo "Not found Head File `".head_path."`".
@@ -39,7 +39,8 @@ function! cppmode#go_to_fun_impl#go_to_fun_impl()
 endfunction
 
 " 获得实现文件路径
-function! s:get_impl_file_path(file_path, suffix)
+function! s:get_impl_file_path(file_path)
+    let suffix = cppmode#util#get_file_suffix()
     if suffix == "cpp"
         return file_path
     elseif suffix == "cc"
@@ -55,7 +56,8 @@ function! s:get_impl_file_path(file_path, suffix)
 endfunction
 
 " 获得头文件路径
-function! s:get_head_file_path(file_path, suffix)
+function! s:get_head_file_path(file_path)
+    let suffix = cppmode#util#get_file_suffix()
     if suffix == "hh"
         return file_path
     elseif suffix == "h"
