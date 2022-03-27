@@ -16,10 +16,10 @@ function! cppmode#go_to_fun_impl#go_to_fun_impl()
 
         if cppmode#util#is_exist(impl_path)
             if <sid>go_to_impl_with_class(impl_path) != 1
-                echo "Not found `".fun_name."` IN `".impl_path."`".
+                echo "Not found `".fun_name."` IN `".impl_path."`"
             endif
         else
-            echo "Not found Impl File `".impl_path."`".
+            echo "Not found Impl File `".impl_path."`"
         endif
 
     elseif suffix == "cc" || suffix == "cpp" || suffix == "c"
@@ -28,11 +28,11 @@ function! cppmode#go_to_fun_impl#go_to_fun_impl()
         if cppmode#util#is_exist(head_path)
             if <sid>go_to_impl_with_class(head_path) != 1
                 if <sid>go_to_impl_not_with_class(head_path) != 1
-                    echo "Not found `".fun_name."` IN `".head_path."`".
+                    echo "Not found `".fun_name."` IN `".head_path."`"
                 endif
             endif
         else
-            echo "Not found Head File `".head_path."`".
+            echo "Not found Head File `".head_path."`"
         endif
 
     endif
